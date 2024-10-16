@@ -1,0 +1,14 @@
+Levenshtein
+openai
+ollama
+langchain_community
+pydantic
+txtai
+scikit-learn
+transformers
+torch
+dill
+langchain_openai
+langchain_experimental
+torch_geometric
+mistralai
