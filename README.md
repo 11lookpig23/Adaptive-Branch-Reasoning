@@ -26,7 +26,7 @@ pip install -r requirement.py
 
 For classification tasks:
 
-```
+```python
 from predata.ClassiAgent import linkInContextAgent
 agent = linkInContextAgent()
 retr = Retriever(agent)
@@ -34,7 +34,7 @@ retr = Retriever(agent)
 
 For proximity tasks:
 
-```
+```python
 from predata.PromxAgent import PromxAgent
 from predata.RELData import RelishData
 from predata.PSTdata import PSTData
@@ -90,7 +90,6 @@ cla_runner .create_reason()
 # Output: prompts for generating BRD
 ```
 
-
 2. Construct ABRP prompts:
 
 ```python
@@ -100,9 +99,17 @@ cla_runner.ABRP_model() # for Classify
 
 ```
 
-
-
 ### Example
+
+Take PST as an example, the input is
+
+```
+Determine whether the references  are the source paper of the Query.
+Query:  Title: Wide Activation for Efficient and Accurate Image Super-Resolution. Abstract: In this report we demonstrate that with same ... 
+Reference-1: Title: Enhanced Deep Residual Networks for Single Image Super-Resolution. Abstract: Recent research on super-resolution has …
+Reference Paper-2: Title: Balanced Two-Stage Residual Networks for Image Super-Resolution.  Abstract: In this paper,  balanced two-stage residual networks are proposed …
+Reference Paper-3: …
+```
 
 Using the adaptive Branch-of-thought, you will obtain different decomposition strategies and their weights:
 
