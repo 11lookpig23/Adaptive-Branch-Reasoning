@@ -1,17 +1,16 @@
 # Adaptive Branch Reasoning Prompting Enhances Literature-based Scientific Reasoning
 
-This repository contains the code implementation and data for the paper titled "Adaptive Branch Reasoning Prompting Enhances Literature-based Scientific Reasoning." 
+This repository contains the code implementation and data for the paper titled "Adaptive Branch Reasoning Prompting Enhances Literature-based Scientific Reasoning."
 
 To improve clarity, we updated the README.md with diagrams to clarify the method and input/output examples. We include an example using the Paper Source Tracing (PST) task to further elucidate the methods discussed in the paper.
 
 ![Illustrations](abrpv4.svg)
 
-
 ## Data Preparation
 
 1. Cleaned Paper Source Tracing data is located in `dataset/PST`.
-2. CSV files downloaded from Huggingface are placed in `dataset/relish`.
-3. The Cora/PubMed datasets can be downloaded from [this link](http://example.com).
+2. Data downloaded from [Huggingface](https://huggingface.co/datasets/allenai/scirepeval/viewer/relish) are placed in `dataset/relish`.
+3. The Cora/PubMed datasets can be downloaded from [this link](https://github.com/XiaoxinHe/TAPE).
 
 ## Installation
 
@@ -21,12 +20,17 @@ Install the required packages using the following command:
 pip install -r requirement.py
 ```
 
-
 ## How to Run the Code
 
 ### Initialize Task Agent
 
 For classification tasks:
+
+```
+from predata.ClassiAgent import linkInContextAgent
+agent = linkInContextAgent()
+retr = Retriever(agent)
+```
 
 For proximity tasks:
 
@@ -43,27 +47,60 @@ reldata = RelishData(False)
 agent = PromxAgent(reldata,'relish')
 ```
 
-### Adaptive Boosting
+### Adaptive Branch-of-Thought
 
-1. Initialize the `Retriever` class.
-2. Run `adaBoT.py` to perform boosting:
+1. Run `adaBoT.py` to perform boosting:
+
    ```python
-   ABoT = Booster(agent, retr)
+   from adaBot import Booster
+   # ABoT = Booster(agent, retr) ## for classification tasks
+   ABoT = Booster(agent) ## for proximity tasks
+
    ABoT.Boosting()
-   # Output: weak learners with weight: msg/boost_alpha.json
+   # Output: weak learners with weight: boost_alpha.json
    ```
-3. Generate branch reasoning demonstrations:
-   ```python
-   from ABRP import PSTRunner
 
-   pst_runner = PSTRunner(agent)
-   pst_runner.generate_BRD_prompts()
-   # Output: prompts for generating BRD
-   ```
-4. Construct ABRP prompts:
-   ```python
-   pst_runner.ABRP_prompts()
-   ```
+### Adaptive Branch Reasoning Prompts
+
+1. Generate branch reasoning demonstrations:
+
+```python
+from ABRP import PSTRunner
+
+pst_runner = PSTRunner(agent)
+pst_runner.generate_BRD_prompts()
+# Output: prompts for generating BRD
+```
+
+```python
+
+from ABRP import RELRunner
+
+rel_runner = RELRunner(agent)
+rel_runner.generate_BRD_prompts()
+# Output: prompts for generating BRD
+```
+
+```python
+
+from ABRP import ClassRunner
+
+cla_runner = ClassRunner(agent)
+cla_runner .create_reason()
+# Output: prompts for generating BRD
+```
+
+
+2. Construct ABRP prompts:
+
+```python
+pst_runner.ABRP_prompts() # for PST
+rel_runner.ABRP_prompts() # for Relish
+cla_runner.ABRP_model() # for Classify
+
+```
+
+
 
 ### Example
 

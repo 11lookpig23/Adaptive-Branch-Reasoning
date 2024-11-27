@@ -11,7 +11,7 @@ A2 = "METHOD"
 A3 = "IDEA"
 A4 = "THEORY/EXPER"
 
-class DBRP:
+class ClassRunner:
     def __init__(self, agent,retr):
         super().__init__(agent,retr)
         self.retr = retr
